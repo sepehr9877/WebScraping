@@ -3,17 +3,27 @@ from bs4 import BeautifulSoup
 
 
 class Webscrape:
-    def __init__(self,name):
+    def __init__(self):
         self.Data={}
         self.headers = {
             "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36',
             }
-        self.search=name
         self.url="https://finance.yahoo.com/quote/"
-    def __seturl(self):
+
+    def __seturl(self,name):
+        self.search=name
         return self.url+"/"+f"{self.search}"+"?"+"p="+f"{self.search}"
-    def json_data(self):
-        set_url=self.__seturl()
+    def get_headers(self):
+        Nam_data={}
+        request_url=requests.request(method="get",url="https://finance.yahoo.com/crypto",headers=self.headers)
+        soup=BeautifulSoup(request_url.content,'lxml')
+        names=soup.find_all('a',class_="Fw(600) C($linkColor)")
+        for name in names:
+            Nam_data[f"{name.text}"]=f"{name.text}"
+        return Nam_data
+    def json_data(self,name):
+        set_url=self.__seturl(name)
+        print(set_url)
         request_url = requests.request(method="get", url=set_url, headers=self.headers)
         soup = BeautifulSoup(request_url.content, 'lxml')
         NameList = soup.find('div', class_="D(ib) Va(m) Maw(65%) Ov(h)")
