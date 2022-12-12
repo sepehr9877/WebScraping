@@ -1,7 +1,7 @@
 from pprint import pprint
 from WebScrapingClass import Webscrape
-webscraping=Webscrape("ETH-USD")
-data=webscraping.json_data()
+webscraping=Webscrape()
+data=webscraping.json_data("ETH-USD")
 pprint(data)
 
 
